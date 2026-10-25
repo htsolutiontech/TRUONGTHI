@@ -1,0 +1,393 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Nhà hàng Trương Thị</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: biển gỗ đầu trang → AI "Chọn quê, ra món" → thực đơn → giỏ & thanh toán nhanh → kênh online. Một giao diện giấy dó + gỗ, không đổi theo dark mode (chủ ý). */
+:root{
+  --paper:#F3EBDD; --paper2:#FBF6EC; --ink:#2B1E14; --muted:#5A4636;
+  --wood:#3E2615; --wood2:#6B4126; --rattan:#D9B77E; --sage:#7E8C69; --brick:#B5552F; --line:#DCCBAE;
+  --display:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --body:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brick)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--brick);outline-offset:2px}
+.tiles{height:22px;background-color:var(--brick);background-image:radial-gradient(circle at 50% 0%,rgba(0,0,0,.28) 0 11px,transparent 12px);background-size:26px 22px;border-bottom:5px solid var(--wood)}
+
+/* Header */
+.top{background:var(--paper);position:sticky;top:env(safe-area-inset-top,0px);z-index:20;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.brand{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:.03em}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav a{color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;padding:8px 10px;border-radius:4px}
+.nav a:hover{background:var(--paper2)}
+.cartbtn{background:var(--wood);color:var(--paper);border:0;border-radius:4px;padding:10px 14px;font-weight:600;min-height:44px;white-space:nowrap}
+.cartbtn b{background:var(--rattan);color:var(--wood);border-radius:10px;padding:0 7px;margin-left:6px;font-variant-numeric:tabular-nums}
+
+/* Hero */
+.hero{background:var(--wood);color:var(--paper)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;padding-block:56px;align-items:center}
+.soon{display:inline-flex;gap:10px;align-items:center;font-size:12px;font-weight:700;letter-spacing:.24em;color:var(--rattan)}
+.soon span{background:var(--rattan);color:var(--wood);padding:5px 10px}
+.hero h1{font-size:clamp(52px,9vw,104px);line-height:.95;margin-top:14px}
+.hero h1 small{display:block;font-family:var(--body);font-size:16px;letter-spacing:.5em;font-weight:600;color:var(--rattan);margin-bottom:6px}
+.slogan{font-family:var(--display);font-style:italic;font-size:clamp(30px,4.5vw,46px);color:#E9C98F;margin:14px 0 10px}
+.hero p{color:#E8DCC6;max-width:52ch;margin:0}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{border:0;border-radius:4px;padding:12px 18px;font-weight:600;min-height:44px;text-decoration:none;display:inline-flex;align-items:center}
+.btn.primary{background:var(--rattan);color:var(--wood)}
+.btn.ghost{background:transparent;color:var(--paper);border:1.5px solid #8A6A4E}
+.addr{background:#4A2F1C;border-radius:4px;padding:22px;display:flex;flex-direction:column;gap:14px}
+.addr .row{display:flex;flex-direction:column;gap:2px}
+.addr .lbl{font-size:11px;letter-spacing:.2em;font-weight:700;color:var(--rattan)}
+.addr .val{font-family:var(--display);font-size:26px;font-weight:600;line-height:1.15}
+.addr .sub{color:#E8DCC6;font-size:14px}
+.grains{display:flex;gap:10px}
+.grains i{width:10px;height:24px;border-radius:50%;background:var(--rattan);display:block}
+
+section{padding-block:56px}
+.sechead{display:flex;flex-direction:column;gap:8px;margin-bottom:24px;max-width:70ch}
+.sechead h2{font-size:clamp(32px,4vw,44px);line-height:1.05}
+.sechead p{color:var(--muted);margin:0}
+
+/* AI */
+.ai{background:var(--paper2);border-block:1px solid var(--line)}
+.aigrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:6px;padding:22px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.q{display:flex;flex-direction:column;gap:8px}
+.q > span{font-weight:600;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--paper2);color:var(--ink);border-radius:999px;padding:8px 14px;min-height:40px;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--wood);color:var(--paper);border-color:var(--wood)}
+.ask{display:flex;gap:8px}
+.ask input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:4px;padding:10px 12px;background:var(--paper2)}
+.ask button{background:var(--brick);color:#fff;border:0;border-radius:4px;padding:0 16px;font-weight:600;min-height:44px}
+.result{display:flex;flex-direction:column;gap:14px}
+.result h3{font-size:30px;line-height:1.1}
+.why{color:var(--muted);margin:0}
+.combo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.combo li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.combo li span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+.note{font-size:12.5px;color:var(--muted);background:var(--paper);border-radius:4px;padding:10px 12px}
+
+/* Menu */
+.menu{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.dish{background:var(--paper2);border:1px solid var(--line);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.dish svg{width:64px;height:50px}
+.dish h3{font-size:25px;line-height:1.05}
+.dish p{margin:0;font-size:13.5px;color:var(--muted);flex:1}
+.dish .foot{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.price{font-weight:700;font-variant-numeric:tabular-nums}
+.add{background:var(--wood);color:var(--paper);border:0;border-radius:4px;padding:8px 14px;min-height:40px;font-weight:600}
+.tag{font-size:11px;font-weight:600;color:var(--sage);letter-spacing:.06em}
+
+/* Cart */
+.cartwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.lines{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.lines li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:36px;height:36px;border:1px solid var(--line);background:var(--paper2);border-radius:4px}
+.empty{color:var(--muted);padding:12px 0}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+form .field{display:flex;flex-direction:column;gap:6px}
+form label{font-weight:600;font-size:14px}
+form input{border:1.5px solid var(--line);border-radius:4px;padding:10px 12px;background:var(--paper2)}
+.pay{border:1.5px dashed var(--wood2);border-radius:6px;padding:16px;display:flex;gap:16px;align-items:center}
+.qrbox{width:96px;height:96px;flex:none;border:2px solid var(--wood);border-radius:4px;background:repeating-linear-gradient(45deg,var(--paper2) 0 6px,#E8DCC6 6px 12px);display:flex;align-items:center;justify-content:center;font-size:11px;text-align:center;font-weight:600}
+.done{background:var(--sage);color:#fff;border-radius:6px;padding:16px}
+.done code{background:rgba(0,0,0,.18);padding:2px 6px;border-radius:3px}
+
+/* Channels */
+.channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.ch{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--line);border-radius:6px;background:var(--paper2);color:var(--ink);text-decoration:none;min-height:110px}
+.ch b{font-size:17px}
+.ch span{font-size:13px;color:var(--muted)}
+.ch .kind{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--brick);text-transform:uppercase}
+a.ch:hover{border-color:var(--wood2)}
+.ch.off{opacity:.62}
+footer{background:var(--ink);color:#E8DCC6}
+footer .wrap{padding-block:32px;display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
+footer b{font-family:var(--display);font-size:26px;color:var(--paper)}
+
+@media (max-width:820px){
+  .hero .wrap,.aigrid,.cartwrap{grid-template-columns:minmax(0,1fr)}
+  .nav{display:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .result,.done{animation:rise .35s ease}
+  @keyframes rise{from{transform:translateY(6px);opacity:.4}to{transform:none;opacity:1}}
+}
+</style>
+
+<div class="tiles" aria-hidden="true"></div>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Trương Thị</div>
+    <nav class="nav" aria-label="Mục chính">
+      <a href="#ai">Chọn quê, ra món</a><a href="#menu">Thực đơn</a><a href="#cart">Đặt &amp; trả</a><a href="#kenh">Kênh online</a>
+    </nav>
+    <button class="cartbtn" id="cartTop" type="button">Giỏ món <b id="cartCount">0</b></button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <div class="soon"><span>SẮP KHAI TRƯƠNG</span>COMING SOON</div>
+      <h1><small>NHÀ HÀNG</small>TRƯƠNG THỊ</h1>
+      <div class="slogan">“Ăn nhớ đường về”</div>
+      <p>Bánh bèo, bánh xèo, bánh cuốn, bánh hồi Bình Định. Bột xay trong ngày, bánh làm tay tại bếp, dọn nóng ra bàn hoặc giao tận nơi.</p>
+      <div class="cta">
+        <a class="btn primary" href="#ai">Để AI chọn món giúp bạn</a>
+        <a class="btn ghost" href="#menu">Xem thực đơn</a>
+      </div>
+    </div>
+    <div class="addr">
+      <div class="grains" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="row"><span class="lbl">ĐỊA CHỈ</span><span class="val">236/19/2 Điện Biên Phủ</span><span class="sub">Phường Gia Định, TP. Hồ Chí Minh</span></div>
+      <div class="row"><span class="lbl">KHAI TRƯƠNG</span><span class="val">[Ngày / tháng]</span><span class="sub">Hotline: [số điện thoại] · Mở cửa: [giờ mở cửa]</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="ai" id="ai">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Bếp Trương Thị gợi món</span>
+      <h2>Chọn quê, ra món</h2>
+      <p>Chạm 3 lựa chọn hoặc gõ một câu như “2 người, thích giòn, dưới 150k”. Trợ lý xếp sẵn một mâm vừa bụng, vừa túi, thêm vào giỏ bằng một chạm.</p>
+    </div>
+    <div class="aigrid">
+      <div class="panel">
+        <div class="q"><span>Bạn nhớ vị quê nào?</span>
+          <div class="chips" data-group="que">
+            <button type="button" class="chip" data-v="trung" aria-pressed="true">Miền Trung</button>
+            <button type="button" class="chip" data-v="bac" aria-pressed="false">Miền Bắc</button>
+            <button type="button" class="chip" data-v="nam" aria-pressed="false">Miền Nam</button>
+            <button type="button" class="chip" data-v="all" aria-pressed="false">Cái gì cũng thèm</button>
+          </div></div>
+        <div class="q"><span>Mấy người ăn?</span>
+          <div class="chips" data-group="nguoi">
+            <button type="button" class="chip" data-v="1" aria-pressed="false">1</button>
+            <button type="button" class="chip" data-v="2" aria-pressed="true">2</button>
+            <button type="button" class="chip" data-v="4" aria-pressed="false">3–4</button>
+            <button type="button" class="chip" data-v="6" aria-pressed="false">5+</button>
+          </div></div>
+        <div class="q"><span>Đang thèm kiểu gì?</span>
+          <div class="chips" data-group="vi">
+            <button type="button" class="chip" data-v="gion" aria-pressed="true">Giòn rụm</button>
+            <button type="button" class="chip" data-v="mem" aria-pressed="false">Mềm, thanh nhẹ</button>
+            <button type="button" class="chip" data-v="no" aria-pressed="false">Ăn cho no</button>
+          </div></div>
+        <div class="q"><span>Hoặc nói theo cách của bạn</span>
+          <form class="ask" id="askForm">
+            <input id="askText" aria-label="Mô tả bữa ăn bạn muốn" placeholder="VD: 3 người, ăn nhẹ, dưới 200k">
+            <button type="submit">Gợi ý</button>
+          </form></div>
+      </div>
+      <div class="panel result" id="result" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Thực đơn ngày đầu</span>
+      <h2>Bánh gạo quê, làm tay mỗi ngày</h2>
+      <p>Giá đang hiển thị là giá minh họa để chạy thử giỏ hàng, sẽ cập nhật giá chính thức trước ngày khai trương.</p>
+    </div>
+    <div class="menu" id="menuGrid"></div>
+  </div>
+</section>
+
+<section id="cart" style="background:var(--paper2);border-top:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Đặt nhanh trong 30 giây</span>
+      <h2>Giỏ món &amp; thanh toán</h2>
+      <p>Chọn ăn tại quán, mang đi hoặc giao tận nơi. Thanh toán bằng chuyển khoản QR, ví điện tử hoặc tiền mặt khi nhận.</p>
+    </div>
+    <div class="cartwrap">
+      <div class="panel">
+        <ul class="lines" id="lines"></ul>
+        <div class="total"><span>Tạm tính</span><span id="sum">0đ</span></div>
+      </div>
+      <form class="panel" id="checkout" novalidate>
+        <div class="q"><span>Hình thức</span>
+          <div class="chips" data-group="hinhthuc">
+            <button type="button" class="chip" data-v="Ăn tại quán" aria-pressed="true">Ăn tại quán</button>
+            <button type="button" class="chip" data-v="Mang đi" aria-pressed="false">Mang đi</button>
+            <button type="button" class="chip" data-v="Giao tận nơi" aria-pressed="false">Giao tận nơi</button>
+          </div></div>
+        <div class="field"><label for="cName">Tên của bạn</label><input id="cName" autocomplete="name" required></div>
+        <div class="field"><label for="cPhone">Số điện thoại</label><input id="cPhone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+        <div class="field" id="addrField" hidden><label for="cAddr">Địa chỉ giao</label><input id="cAddr" autocomplete="street-address"></div>
+        <div class="q"><span>Thanh toán</span>
+          <div class="chips" data-group="tt">
+            <button type="button" class="chip" data-v="QR chuyển khoản" aria-pressed="true">QR chuyển khoản</button>
+            <button type="button" class="chip" data-v="Ví MoMo / ZaloPay" aria-pressed="false">Ví MoMo / ZaloPay</button>
+            <button type="button" class="chip" data-v="Tiền mặt" aria-pressed="false">Tiền mặt</button>
+          </div></div>
+        <p id="formErr" style="color:var(--brick);margin:0;font-weight:600" hidden></p>
+        <button type="submit" class="btn primary" style="background:var(--wood);color:var(--paper);justify-content:center">Tạo đơn</button>
+        <div id="doneBox" hidden></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="kenh">
+  <div class="wrap">
+    <div class="sechead">
+      <span class="eyebrow">Có mặt trên các kênh</span>
+      <h2>Đặt ở đâu cũng là Trương Thị</h2>
+      <p>Đường dẫn hiện trỏ về trang chủ từng nền tảng; sẽ thay bằng trang cửa hàng khi gian hàng được duyệt.</p>
+    </div>
+    <div class="channels">
+      <a class="ch" href="https://food.grab.com/vn/vi/" target="_blank" rel="noopener"><span class="kind">Giao đồ ăn</span><b>GrabFood</b><span>Tìm “Trương Thị” trên ứng dụng Grab</span></a>
+      <a class="ch" href="https://shopeefood.vn/" target="_blank" rel="noopener"><span class="kind">Giao đồ ăn · gồm Foody</span><b>ShopeeFood</b><span>Foody.vn nay đặt món qua ShopeeFood</span></a>
+      <a class="ch" href="https://be.com.vn/" target="_blank" rel="noopener"><span class="kind">Giao đồ ăn</span><b>beFood</b><span>Trên ứng dụng Be</span></a>
+      <a class="ch" href="https://www.ahamove.com/" target="_blank" rel="noopener"><span class="kind">Giao nhanh</span><b>Ahamove</b><span>Quán gọi tài xế giao đơn đặt trên website</span></a>
+      <a class="ch" href="https://www.tiktok.com/" target="_blank" rel="noopener"><span class="kind">Mạng xã hội</span><b>TikTok</b><span>@[tên kênh] · video làm bánh mỗi ngày</span></a>
+      <a class="ch" href="https://www.facebook.com/" target="_blank" rel="noopener"><span class="kind">Mạng xã hội</span><b>Facebook</b><span>Fanpage @[tên trang] · nhắn tin đặt bàn</span></a>
+      <div class="ch off"><span class="kind">Không khả dụng</span><b>GoFood</b><span>Gojek đã dừng hoạt động tại Việt Nam từ 9/2024</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Trương Thị</b><div>Ăn nhớ đường về</div></div>
+    <div>236/19/2 Điện Biên Phủ, phường Gia Định, TP.HCM<br>Hotline: [số điện thoại]</div>
+  </div>
+</footer>
+
+<script>
+const ICON={
+ beo:'<svg viewBox="0 0 72 56" aria-hidden="true" fill="none" stroke="#6B4126" stroke-width="2.4" stroke-linecap="round"><ellipse cx="36" cy="20" rx="26" ry="7"/><path d="M10 20 Q14 44 36 46 Q58 44 62 20"/><path d="M24 18 h4 M34 16 h5 M44 19 h4" stroke="#B5552F"/></svg>',
+ xeo:'<svg viewBox="0 0 72 56" aria-hidden="true" fill="none" stroke="#6B4126" stroke-width="2.4" stroke-linecap="round"><circle cx="32" cy="30" r="20"/><path d="M52 30 h16"/><path d="M16 34 Q32 18 48 34" stroke="#B5552F"/></svg>',
+ cuon:'<svg viewBox="0 0 72 56" aria-hidden="true" fill="none" stroke="#6B4126" stroke-width="2.4" stroke-linecap="round"><ellipse cx="36" cy="40" rx="30" ry="8"/><rect x="14" y="22" width="44" height="10" rx="5"/><rect x="18" y="12" width="36" height="10" rx="5"/></svg>',
+ hoi:'<svg viewBox="0 0 72 56" aria-hidden="true" fill="none" stroke="#6B4126" stroke-width="2" stroke-linecap="round"><rect x="16" y="10" width="40" height="34" rx="3"/><path d="M16 18 h40 M16 26 h40 M16 34 h40 M24 10 v34 M32 10 v34 M40 10 v34 M48 10 v34"/></svg>',
+ nuoc:'<svg viewBox="0 0 72 56" aria-hidden="true" fill="none" stroke="#6B4126" stroke-width="2.4" stroke-linecap="round"><path d="M24 14 h24 l-4 38 h-16 z"/><path d="M42 4 l-6 30" stroke="#B5552F"/></svg>'
+};
+const MENU=[
+ {id:'beo',name:'Bánh bèo',desc:'Chén nhỏ, tôm chấy, mỡ hành, nước mắm ngọt.',price:35000,que:['trung'],vi:['mem'],tag:'Vị Huế – Quảng'},
+ {id:'xeo',name:'Bánh xèo',desc:'Vỏ giòn vàng, nhân tôm thịt giá, cuốn rau sống.',price:55000,que:['nam','trung'],vi:['gion','no'],tag:'Giòn rụm'},
+ {id:'cuon',name:'Bánh cuốn',desc:'Tráng mỏng, nhân thịt mộc nhĩ, hành phi.',price:45000,que:['bac'],vi:['mem'],tag:'Vị Bắc'},
+ {id:'hoi',name:'Bánh hồi Bình Định',desc:'Sợi gạo mảnh đan như chiếu, ăn kèm thịt và rau.',price:60000,que:['trung'],vi:['no','mem'],tag:'Đặc sản Bình Định'},
+ {id:'nuoc',name:'Nước trái cây',desc:'Ép tươi trong ngày theo mùa, tinh khiết.',price:30000,que:['bac','trung','nam'],vi:['mem'],tag:'Thức uống'}
+];
+const fmt=n=>n.toLocaleString('vi-VN')+'đ';
+const byId=id=>MENU.find(m=>m.id===id);
+const cart={};
+const sel={que:'trung',nguoi:'2',vi:'gion',hinhthuc:'Ăn tại quán',tt:'QR chuyển khoản'};
+let budget=null, lastCombo=[];
+
+function setChips(group,val){
+  document.querySelectorAll('[data-group="'+group+'"] .chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.v===val?'true':'false'));
+  sel[group]=val;
+}
+document.querySelectorAll('[data-group]').forEach(g=>{
+  g.addEventListener('click',e=>{
+    const b=e.target.closest('.chip'); if(!b) return;
+    setChips(g.dataset.group,b.dataset.v);
+    if(['que','nguoi','vi'].includes(g.dataset.group)){budget=null;suggest();}
+    if(g.dataset.group==='hinhthuc') document.getElementById('addrField').hidden = b.dataset.v!=='Giao tận nơi';
+  });
+});
+
+/* "AI" gợi món: hiểu câu tiếng Việt bằng từ khóa + chấm điểm món theo quê, khẩu vị, số người, ngân sách. */
+function parse(text){
+  const t=text.toLowerCase();
+  const n=t.match(/(\d+)\s*(người|nguoi|ng\b|đứa|ae)/); if(n) setChips('nguoi', +n[1]>=5?'6':+n[1]>=3?'4':String(+n[1]));
+  const b=t.match(/(\d+)\s*(k|nghìn|ngàn)/); budget=b?+b[1]*1000:null;
+  const tr=t.match(/(\d+)\s*(tr|triệu)/); if(tr) budget=+tr[1]*1e6;
+  if(/giòn|gion|chiên/.test(t)) setChips('vi','gion');
+  else if(/nhẹ|nhe|thanh|mềm|mem/.test(t)) setChips('vi','mem');
+  else if(/no|đói|doi|nhiều/.test(t)) setChips('vi','no');
+  if(/huế|hue|quảng|bình định|binh dinh|miền trung|trung/.test(t)) setChips('que','trung');
+  else if(/bắc|bac|hà nội|ha noi/.test(t)) setChips('que','bac');
+  else if(/nam|sài gòn|sai gon|miền tây/.test(t)) setChips('que','nam');
+}
+function suggest(){
+  const people=+sel.nguoi;
+  const scored=MENU.filter(m=>m.id!=='nuoc').map(m=>({m,s:(sel.que==='all'||m.que.includes(sel.que)?2:0)+(m.vi.includes(sel.vi)?2:0)})).sort((a,b)=>b.s-a.s);
+  const kinds=people<=1?1:people<=2?2:people<=4?3:4;
+  const portions=Math.max(1,Math.ceil(people*1.2/kinds));
+  let combo=scored.slice(0,kinds).map(x=>({id:x.m.id,q:portions}));
+  combo.push({id:'nuoc',q:people});
+  const total=c=>c.reduce((s,l)=>s+byId(l.id).price*l.q,0);
+  let trimmed=false;
+  while(budget && total(combo)>budget){
+    const drink=combo.find(l=>l.id==='nuoc');
+    const food=combo.filter(l=>l.id!=='nuoc').sort((a,b)=>b.q-a.q)[0];
+    if(drink && drink.q>0 && drink.q>=(food?food.q:0)) drink.q--; else if(food && food.q>1) food.q--; else if(combo.filter(l=>l.id!=='nuoc'&&l.q>0).length>1){food.q=0;} else break;
+    combo=combo.filter(l=>l.q>0); trimmed=true;
+  }
+  lastCombo=combo;
+  const top=byId(combo[0].id);
+  const queTxt={trung:'miền Trung',bac:'miền Bắc',nam:'miền Nam',all:'cả ba miền'}[sel.que];
+  const viTxt={gion:'giòn',mem:'mềm, thanh',no:'no bụng'}[sel.vi];
+  const r=document.getElementById('result');
+  r.innerHTML='<span class="eyebrow">Mâm gợi ý cho '+(people>=6?'5+':people)+' người</span>'+
+   '<h3>'+top.name+' dẫn đầu, vị '+queTxt+'</h3>'+
+   '<p class="why">Bạn thèm vị '+viTxt+'. '+top.name+' hợp nhất: '+top.desc.toLowerCase()+' '+(kinds>1?'Kèm thêm món để cả bàn ăn đổi vị.':'')+(trimmed?' Đã bớt phần để vừa ngân sách '+fmt(budget)+'.':'')+(budget&&total(combo)>budget?' Ngân sách hơi chặt, đây là mâm tối thiểu.':'')+'</p>'+
+   '<ul class="combo">'+combo.map(l=>'<li><span>'+byId(l.id).name+' × '+l.q+'</span><span>'+fmt(byId(l.id).price*l.q)+'</span></li>').join('')+'</ul>'+
+   '<div class="total"><span>Cả mâm</span><span>'+fmt(total(combo))+'</span></div>'+
+   '<button type="button" class="btn primary" id="takeCombo" style="background:var(--brick);color:#fff;justify-content:center">Thêm cả mâm vào giỏ</button>'+
+   '<div class="note">Gợi ý chạy ngay trên trang theo quê, khẩu vị, số người và ngân sách bạn nói. Giá minh họa.</div>';
+  document.getElementById('takeCombo').onclick=()=>{lastCombo.forEach(l=>add(l.id,l.q));location.hash='';document.getElementById('cart').scrollIntoView({behavior:'smooth'});};
+}
+document.getElementById('askForm').addEventListener('submit',e=>{e.preventDefault();parse(document.getElementById('askText').value);suggest();});
+
+function renderMenu(){
+  document.getElementById('menuGrid').innerHTML=MENU.map(m=>'<article class="dish">'+ICON[m.id]+'<span class="tag">'+m.tag+'</span><h3>'+m.name+'</h3><p>'+m.desc+'</p><div class="foot"><span class="price">'+fmt(m.price)+'</span><button type="button" class="add" data-add="'+m.id+'">Thêm</button></div></article>').join('');
+}
+document.getElementById('menuGrid').addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(b){add(b.dataset.add,1);b.textContent='Đã thêm ✓';setTimeout(()=>b.textContent='Thêm',900);}});
+function add(id,q){cart[id]=(cart[id]||0)+q;if(cart[id]<=0)delete cart[id];renderCart();}
+function renderCart(){
+  const ids=Object.keys(cart), ul=document.getElementById('lines');
+  ul.innerHTML=ids.length?ids.map(id=>'<li><span>'+byId(id).name+'</span><span class="qty"><button type="button" data-q="'+id+'" data-d="-1" aria-label="Bớt '+byId(id).name+'">−</button><b style="min-width:20px;text-align:center">'+cart[id]+'</b><button type="button" data-q="'+id+'" data-d="1" aria-label="Thêm '+byId(id).name+'">+</button></span><span class="price">'+fmt(byId(id).price*cart[id])+'</span></li>').join(''):'<li class="empty">Giỏ đang trống. Thêm món từ thực đơn hoặc lấy cả mâm AI gợi ý.</li>';
+  const sum=ids.reduce((s,id)=>s+byId(id).price*cart[id],0);
+  document.getElementById('sum').textContent=fmt(sum);
+  document.getElementById('cartCount').textContent=ids.reduce((s,id)=>s+cart[id],0);
+  return sum;
+}
+document.getElementById('lines').addEventListener('click',e=>{const b=e.target.closest('[data-q]');if(b)add(b.dataset.q,+b.dataset.d);});
+document.getElementById('cartTop').onclick=()=>document.getElementById('cart').scrollIntoView({behavior:'smooth'});
+
+document.getElementById('checkout').addEventListener('submit',e=>{
+  e.preventDefault();
+  const err=document.getElementById('formErr'), sum=renderCart();
+  const name=document.getElementById('cName').value.trim(), phone=document.getElementById('cPhone').value.trim(), addr=document.getElementById('cAddr').value.trim();
+  let msg='';
+  if(!sum) msg='Giỏ đang trống, hãy thêm ít nhất một món.';
+  else if(!name) msg='Nhập tên để quán gọi khi món xong.';
+  else if(!/^0\d{9}$/.test(phone.replace(/\s/g,''))) msg='Số điện thoại cần 10 chữ số, bắt đầu bằng 0.';
+  else if(sel.hinhthuc==='Giao tận nơi'&&!addr) msg='Nhập địa chỉ giao hàng.';
+  err.hidden=!msg; err.textContent=msg; if(msg) return;
+  const code='TT'+Date.now().toString().slice(-6);
+  const box=document.getElementById('doneBox'); box.hidden=false; box.className='done';
+  const payBlock = sel.tt==='QR chuyển khoản'
+    ? '<div class="pay" style="border-color:#fff;margin-top:10px"><div class="qrbox" style="color:var(--ink)">QR VietQR<br>của quán</div><div>Chuyển <b>'+fmt(sum)+'</b><br>Nội dung: <code>'+code+'</code><br><button type="button" class="chip" id="copyCode" style="margin-top:8px">Sao chép nội dung</button></div></div>'
+    : '<p style="margin:8px 0 0">Thanh toán: '+sel.tt+' · '+fmt(sum)+'</p>';
+  box.innerHTML='<b>Đơn mẫu '+code+' đã tạo</b><br>'+sel.hinhthuc+' · '+name+' · '+phone+payBlock+'<p style="margin:10px 0 0;font-size:13px">Bản chạy thử: đơn chưa gửi về bếp. Khi khai trương, đơn sẽ đẩy về máy POS của quán.</p>';
+  const cp=document.getElementById('copyCode');
+  if(cp) cp.onclick=()=>{navigator.clipboard.writeText(code).then(()=>cp.textContent='Đã sao chép',()=>cp.textContent=code);};
+});
+
+renderMenu(); renderCart(); suggest();
+</script>
+
+</body></html>
